@@ -64,9 +64,51 @@ stations_metadata_df %>%
   transform_volumes() %>% 
   ggplot(aes(x=from, y=volume)) + 
   geom_line() + 
-  theme_classic()
+  theme_classic() +
+  labs(
+    title = paste("Traffic Volume for Station:", station_name),
+    x = "Time",
+    y = "Volume",
+    color = "Legend Title"
+  ) +
+  scale_color_manual(
+    values = c("Volume" = "blue"),
+    name = "Legend Title"
+  )
 
 
+#Modified version 
+stations_metadata_df %>%
+  filter(latestData > Sys.Date() - days(7)) %>%
+  sample_n(1) %>%
+  { 
+    station_id <- .[["id"]]
+    
+    # Getting the station name from the metadata dataframe
+    station_name <- stations_metadata_df %>%
+      filter(id == station_id) %>%
+      pull(name)
+    
+    vol_qry(
+      id = station_id,
+      from = to_iso8601(.[["latestData"]], -4),
+      to = to_iso8601(.[["latestData"]], 0)
+    ) %>%
+      GQL(., .url = configs$vegvesen_url) %>%
+      transform_volumes() %>%
+      ggplot(aes(x = from, y = volume, color = "Volume")) +
+      geom_line() +
+      theme_classic() +
+      labs(
+        title = paste("Traffic Volume for Station:", station_name),
+        x = "Time",
+        y = "Volume",
+        color = "Legend Title"
+      ) +
+      scale_color_manual(
+        values = c("Volume" = "red"),
+      )
+  }
 
 
 
