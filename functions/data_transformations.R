@@ -23,3 +23,9 @@ to_iso8601 <- function(date_time, offset) {
 to_iso8601(as_datetime("2016-09-01 10:11:12"), -4)
 
 
+#Adding a transform volumes function
+transform_volumes <- function(json_object){
+  df <- as.data.frame(json_object)
+  return(df)
+}
+
