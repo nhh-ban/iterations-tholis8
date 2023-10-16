@@ -51,6 +51,7 @@ test_stations_metadata(stations_metadata_df)
 
 source("gql-queries/vol_qry.r")
 
+
 stations_metadata_df %>% 
   filter(latestData > Sys.Date() - days(7)) %>% 
   sample_n(1) %$% 
@@ -64,9 +65,6 @@ stations_metadata_df %>%
   ggplot(aes(x=from, y=volume)) + 
   geom_line() + 
   theme_classic()
-
-
-
 
 
 
