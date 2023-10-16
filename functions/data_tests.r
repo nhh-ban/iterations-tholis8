@@ -5,7 +5,8 @@
 # All tests are packed in a function test_stations_metadata that apples
 # all the aforementioned tests
 
-test_stations_metadata_colnames <-
+#The function checks for if the dataframe 
+test_stations_metadata_colnames <-                
   function(df) {
     
     expected_colnames <- c("id", "name", "latestData", "lat", "lon")
